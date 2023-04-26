@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    // Mark: - Property
+    // MARK: - Property
     
     @AppStorage("onboarding") var isOnboarding: Bool = true
     
-    // Mark: - Body
+    @State private var buttonWidth: Double = UIScreen.main.bounds.width - 80
+    @State private var buttonOffset: CGFloat = 0
+    
+    
+    // MARK: - Body
     
     var body: some View {
         ZStack {
@@ -76,7 +80,7 @@ It's not how much we give, but how much love we put into giving.
                     HStack {
                         Capsule()
                             .fill(Color("ColorRed"))
-                            .frame(width: 80)
+                            .frame(width: buttonOffset + 80)
                         Spacer()
                     }
                     
@@ -94,14 +98,27 @@ It's not how much we give, but how much love we put into giving.
                         }
                         .foregroundColor(.white)
                         .frame(width: 80, height: 80, alignment: .center)
-                        .onTapGesture {
-                            isOnboarding = false
-                        }
+                        .offset(x: buttonOffset)
+                        .gesture(DragGesture()
+                            .onChanged { gesture in
+                                if gesture.translation.width > 0 && buttonOffset <= buttonWidth - 80 {
+                                    buttonOffset = gesture.translation.width
+                                }
+                            }
+                            .onEnded { _ in
+                                if buttonOffset > buttonWidth / 2 {
+                                    buttonOffset = buttonWidth - 80
+                                    isOnboarding = false
+                                } else {
+                                    buttonOffset = 0
+                                }
+                            }
+                        ) // Gesture
                         
                         Spacer()
                     } // HStack
                 } // Footer
-                .frame(height: 80, alignment: .center)
+                .frame(width: buttonWidth, height: 80, alignment: .center)
                 .padding()
             } // VStack
         } // ZStack

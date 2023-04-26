@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct HomeView: View {
-    // Mark: - Property
+    // MARK: - Property
     
     @AppStorage("onboarding") var isOnboarding: Bool = false
     
     
-    // Mark: - Body
+    // MARK: - Body
     
     var body: some View {
         VStack(spacing: 20.0) {
-            // Mark: - Header
+            // MARK: - Header
             
             Spacer()
             
@@ -30,7 +30,7 @@ struct HomeView: View {
                 .padding()
             } // ZStack
             
-            // Mark: - Center
+            // MARK: - Center
             
             Text("The time that leads to mastery is dependent on the intensity of our focus.")
                 .font(.title3)
@@ -39,7 +39,7 @@ struct HomeView: View {
                 .multilineTextAlignment(.center)
                 .padding()
             
-            // Mark: - Footer
+            // MARK: - Footer
             
             Spacer()
             

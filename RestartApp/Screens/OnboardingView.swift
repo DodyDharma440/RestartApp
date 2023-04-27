@@ -20,6 +20,8 @@ struct OnboardingView: View {
     @State private var indicatorOpacity: Double = 1
     @State private var textTitle: String = "Share."
     
+    let hapticFeedback = UINotificationFeedbackGenerator()
+    
     // MARK: - Body
     
     var body: some View {
@@ -157,9 +159,12 @@ It's not how much we give, but how much love we put into giving.
                                 .onEnded { _ in
                                     withAnimation(.easeOut(duration: 0.4)) {
                                         if buttonOffset > buttonWidth / 2 {
+                                            hapticFeedback.notificationOccurred(.success)
+                                            playSound(name: "chimeup", type: "mp3")
                                             buttonOffset = buttonWidth - 80
                                             isOnboarding = false
                                         } else {
+                                            hapticFeedback.notificationOccurred(.warning)
                                             buttonOffset = 0
                                         }
                                     }
@@ -179,6 +184,7 @@ It's not how much we give, but how much love we put into giving.
         .onAppear(perform: {
             isAnimated = true
         })
+        .preferredColorScheme(.dark)
     }
 }
 
